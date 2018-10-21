@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Geolocation</title>
+    <title>Survivalists</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
@@ -20,17 +20,21 @@
   </head>
   <body>
 
-  	<video autoplay></video>
-
 	<script>
 	const constraints = {
   	video: true
 	};
-
 	const video = document.querySelector('video');
-
 	navigator.mediaDevices.getUserMedia(constraints).
   	then((stream) => {video.srcObject = stream;});
+	</script>
+
+	<script>
+	navigator.geolocation.getCurrentPosition(function(position) {
+ 	console.log('Geolocation permissions granted');
+  	console.log('Latitude:' + position.coords.latitude);
+  	console.log('Longitude:' + position.coords.longitude);
+	});
 	</script>
 
     <div id="map"></div>
@@ -78,9 +82,19 @@
         infoWindow.open(map);
       }
     </script>
+    <button onclick="">Like</button><button onclick="">Like</button><button onclick="">Like</button><button onclick="">Like</button><button onclick="">Like</button>
     <div id="buttons"><input type="file" accept="image/*;capture=camera"></div>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBs9xkjs1ZT7qfX9PIQEql2c8OJK2nd56w&callback=initMap">
     </script>
+    {% if user %}
+    <div id="user_info"><b>Found a user name: {{ user.nickname() }} and id: {{ user.user_id() }}</b></div>
+    {% else %}
+    <div id="user_info"><b>There is no user</b></div>
+    <div id="user_login_url"><b>User login url: {{ url }}</b></div>
+    <div id="user_login_uri"><b>User login uri: {{ uri }}</b></div>
+    <div id="user_login_text"><b>URL linktext: {{ url_linktext }}</b></div>
+    {% endif %}
+    <div class="nav-collapse"><a href="{{ url|safe }}" class="btn">{{ url_linktext }}</a></div>
   </body>
 </html>
